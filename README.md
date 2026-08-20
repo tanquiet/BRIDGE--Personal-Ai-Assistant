@@ -116,7 +116,7 @@ npm install
 From the project root:
 
 ```bash
-uvicorn main:app --reload
+uvicorn backend.app:app --reload
 ```
 
 The backend runs on:
@@ -139,6 +139,38 @@ The frontend runs on:
 ```
 http://localhost:5173
 ```
+
+Open `http://localhost:5173` in your browser. Keep both terminals running.
+
+### Run on your local network
+
+To open the frontend from another device on the same Wi-Fi network:
+
+```bash
+cd frontend
+npm run dev -- --host 0.0.0.0
+```
+
+Use the computer's local IP address with port `5173`, for example:
+`http://192.168.1.10:5173`.
+
+The backend must remain reachable at port `8000`, and Ollama must be running with
+the selected model installed. For a public deployment, host the frontend and
+backend separately and replace `VITE_API_BASE_URL` with the public backend URL.
+
+### Deploy the frontend to GitHub Pages
+
+This repository includes a GitHub Actions workflow at
+`.github/workflows/deploy-pages.yml`. To enable it:
+
+1. Push the workflow to the `main` branch.
+2. Open the repository on GitHub and go to **Settings > Pages**.
+3. Set **Source** to **GitHub Actions**.
+4. Open the completed workflow run to find the published Pages URL.
+
+GitHub Pages hosts the React interface only. Chat requests still require a
+public FastAPI backend and a server running Ollama; the local `127.0.0.1:8000`
+address will not work for visitors to the Pages site.
 
 ---
 
