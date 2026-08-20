@@ -1,4 +1,5 @@
-import { ArrowUp, Paperclip, RefreshCw, Settings2 } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowUp, Paperclip, Settings2, SunMedium, Moon, Bot, Sparkles, Lightbulb, Code2, Copy, Check, ChevronDown } from 'lucide-react';
 
 export default function ChatPanel({
   messages,
@@ -15,112 +16,175 @@ export default function ChatPanel({
   settingsOpen,
   setSettingsOpen,
 }) {
+  const isDark = theme === 'dark';
+  const [copiedId, setCopiedId] = useState(null);
+
+  const promptCards = [
+    { icon: Sparkles, title: 'Explore an idea', prompt: 'Help me think through a new idea' },
+    { icon: Lightbulb, title: 'Explain something', prompt: 'Explain a difficult topic in simple terms' },
+    { icon: Code2, title: 'Write some code', prompt: 'Help me build a small project' },
+  ];
+
+  const copyMessage = async (message) => {
+    await navigator.clipboard.writeText(message.content);
+    setCopiedId(message.id);
+    window.setTimeout(() => setCopiedId(null), 1600);
+  };
+
   return (
-    <section className={`flex h-full flex-col rounded-3xl border p-4 shadow-2xl shadow-black/20 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/70' : 'border-slate-200 bg-white/80'}`}>
-      <div className="flex items-center justify-between border-b border-slate-700/60 pb-3">
-        <div>
-          <p className="text-sm font-semibold">Live conversation</p>
-          <p className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>Streaming responses from your backend</p>
-        </div>
+    <main className={`flex h-full min-w-0 flex-1 flex-col ${isDark ? 'bg-[#212121]' : 'bg-[#f7f7f8]'}`}>
+      {/* Top bar */}
+      <div className={`flex h-14 shrink-0 items-center justify-between border-b px-5 ${isDark ? 'border-white/10' : 'border-black/10'}`}>
         <button
           type="button"
-          onClick={() => setSettingsOpen((value) => !value)}
-          className={`rounded-full border p-2 transition ${theme === 'dark' ? 'border-slate-700 bg-slate-800 hover:bg-slate-700' : 'border-slate-200 bg-slate-100 hover:bg-slate-200'}`}
+          onClick={() => setSettingsOpen((v) => !v)}
+          className={`flex items-center gap-1 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-black/10 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}
         >
-          <Settings2 size={16} />
+          {model}
+          <Settings2 size={14} className="text-slate-400" />
+        </button>
+        <button
+          type="button"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          aria-label="Toggle theme"
+          className={`rounded-md p-2 transition hover:bg-black/10 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}
+        >
+          {theme === 'dark' ? <SunMedium size={16} /> : <Moon size={16} />}
         </button>
       </div>
 
       {settingsOpen && (
-        <div className={`mt-3 rounded-2xl border p-3 ${theme === 'dark' ? 'border-slate-800 bg-slate-800/70' : 'border-slate-200 bg-slate-50'}`}>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <label className="text-sm font-medium">
+        <div className={`border-b px-4 py-3 ${isDark ? 'border-white/10 bg-white/5' : 'border-black/10 bg-black/5'}`}>
+          <div className="mx-auto flex max-w-3xl flex-col gap-3 sm:flex-row">
+            <label className="flex-1 text-xs font-medium text-slate-400">
               Model
               <select
                 value={model}
-                onChange={(event) => setModel(event.target.value)}
-                className={`mt-1 w-full rounded-xl border px-3 py-2 text-sm ${theme === 'dark' ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'}`}
+                onChange={(e) => setModel(e.target.value)}
+                className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${isDark ? 'border-white/15 bg-[#2a2a2a] text-slate-100' : 'border-black/15 bg-white text-slate-900'}`}
               >
                 <option value="gemma3:4b">gemma3:4b</option>
                 <option value="llama3.1:8b">llama3.1:8b</option>
                 <option value="phi3:mini">phi3:mini</option>
               </select>
             </label>
-            <label className="text-sm font-medium">
-              Theme
-              <select
-                value={theme}
-                onChange={(event) => setTheme(event.target.value)}
-                className={`mt-1 w-full rounded-xl border px-3 py-2 text-sm ${theme === 'dark' ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'}`}
-              >
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
-              </select>
-            </label>
           </div>
         </div>
       )}
 
-      <div className="mt-4 flex-1 space-y-3 overflow-y-auto rounded-2xl p-2">
-        {messages.length === 0 ? (
-          <div className={`flex h-full items-center justify-center rounded-2xl border border-dashed p-6 text-center ${theme === 'dark' ? 'border-slate-700 text-slate-400' : 'border-slate-300 text-slate-500'}`}>
-            <div>
-              <p className="text-lg font-semibold">Your intelligent workspace starts here</p>
-              <p className="mt-2 text-sm">Ask for help, summarize documents, brainstorm ideas, or upload a PDF to ground the conversation in your own content.</p>
-            </div>
-          </div>
-        ) : (
-          messages.map((message) => (
-            <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 ${message.role === 'user' ? 'bg-fuchsia-600 text-white' : theme === 'dark' ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-700'}`}>
-                {message.content}
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="mx-auto flex w-full max-w-4xl flex-col gap-2 px-0 py-8">
+          {messages.length === 0 ? (
+            <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
+              <div className="welcome-orbit mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#10a37f] text-white">
+                <Bot size={24} />
+              </div>
+              <p className="text-2xl font-semibold tracking-tight text-[#ececec]">How can I help you today?</p>
+              <p className="mt-3 max-w-md text-sm leading-6 text-slate-400">
+                Ask a question, brainstorm ideas, or upload a PDF to ground the conversation in your own content.
+              </p>
+              <div className="mt-8 grid w-full max-w-2xl gap-3 sm:grid-cols-3">
+                {promptCards.map(({ icon: Icon, title, prompt }) => (
+                  <button
+                    key={title}
+                    type="button"
+                    onClick={() => setInput(prompt)}
+                    className={`prompt-card group rounded-xl border p-4 text-left transition ${isDark ? 'border-white/10 bg-white/[0.03] hover:border-[#10a37f]/60 hover:bg-[#10a37f]/10' : 'border-black/10 bg-white hover:border-[#10a37f]/60 hover:bg-[#10a37f]/5'}`}
+                  >
+                    <Icon size={17} className="mb-6 text-[#10a37f] transition-transform group-hover:scale-110" />
+                    <span className={`block text-sm font-medium ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>{title}</span>
+                    <span className="mt-1 block text-xs leading-5 text-slate-500">{prompt}</span>
+                  </button>
+                ))}
               </div>
             </div>
-          ))
-        )}
-        {isLoading && (
-          <div className={`flex justify-start ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
-            <div className="flex items-center gap-2 rounded-2xl bg-slate-100 px-3 py-2 text-sm">
-              <RefreshCw size={14} className="animate-spin" />
-              Thinking...
+          ) : (
+            messages.map((message) =>
+              message.role === 'user' ? (
+                <div key={message.id} className="flex justify-end px-4 py-2 sm:px-8">
+                  <div className={`max-w-[78%] rounded-2xl px-5 py-3 text-sm leading-6 ${isDark ? 'bg-[#2f2f2f] text-slate-100' : 'bg-white text-slate-800 shadow-sm'}`}>
+                    {message.content}
+                  </div>
+                </div>
+              ) : (
+                <div key={message.id} className={`message-row group flex gap-4 rounded-xl px-4 py-5 sm:px-8 ${isDark ? 'bg-[#2f2f2f]/45' : 'bg-white/70'}`}>
+                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#10a37f] text-white">
+                    <Bot size={14} />
+                  </div>
+                  <div className="min-w-0 max-w-3xl">
+                    <div className={`whitespace-pre-wrap pt-1 text-sm leading-7 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
+                      {message.content}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copyMessage(message)}
+                      className="message-action mt-3 flex items-center gap-1.5 text-xs text-slate-500 transition hover:text-slate-300"
+                    >
+                      {copiedId === message.id ? <Check size={13} /> : <Copy size={13} />}
+                      {copiedId === message.id ? 'Copied' : 'Copy'}
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          )}
+          {isLoading && (
+            <div className="flex gap-4 rounded-xl px-4 py-5 sm:px-8">
+              <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#10a37f] text-white">
+                <Bot size={14} />
+              </div>
+              <div className="flex items-center gap-3 pt-1 text-sm text-slate-400">
+                <span className="typing-dots flex gap-1"><span /><span /><span /></span>
+                Thinking through it...
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2 text-xs">
-        {uploadedFiles.map((file) => (
-          <span key={file.name} className={`rounded-full px-3 py-1 ${theme === 'dark' ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
-            {file.name}
-          </span>
-        ))}
+      {/* Input */}
+      <div className="px-4 pb-5 pt-2 sm:px-6">
+        <div className="mx-auto max-w-4xl">
+          {uploadedFiles.length > 0 && (
+            <div className="mb-2 flex flex-wrap gap-2 text-xs">
+              {uploadedFiles.map((file) => (
+                <span key={file.name} className="rounded-full bg-white/10 px-3 py-1 text-slate-300">
+                  {file.name}
+                </span>
+              ))}
+            </div>
+          )}
+          <form
+            onSubmit={onSend}
+            className={`composer-glow flex items-center gap-2 rounded-2xl border px-3 py-2.5 shadow-lg ${isDark ? 'border-white/15 bg-[#2f2f2f]' : 'border-black/15 bg-white'}`}
+          >
+            <label className="flex cursor-pointer items-center rounded-full p-2 text-slate-400 transition hover:bg-white/10" title="Attach a PDF">
+              <Paperclip size={18} />
+              <input type="file" accept="application/pdf" onChange={onUpload} className="hidden" />
+            </label>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Message Bridge"
+              className={`flex-1 bg-transparent text-sm placeholder:text-slate-500 outline-none ${isDark ? 'text-slate-100' : 'text-slate-900'}`}
+            />
+            <span className="hidden items-center gap-1 text-[10px] font-medium uppercase tracking-wider text-slate-500 sm:flex">
+              {model}<ChevronDown size={12} />
+            </span>
+            <button
+              type="submit"
+              disabled={isLoading || !input.trim()}
+              aria-label="Send message"
+              className="send-button flex h-8 w-8 items-center justify-center rounded-full bg-[#10a37f] text-white transition hover:scale-105 hover:bg-[#0d8f70] disabled:scale-100 disabled:opacity-30"
+            >
+              <ArrowUp size={16} />
+            </button>
+          </form>
+          <p className="mt-2 text-center text-xs text-slate-500">Bridge can make mistakes. Verify important info.</p>
+        </div>
       </div>
-
-      <form onSubmit={onSend} className="mt-4 flex flex-col gap-2 sm:flex-row">
-        <label className={`flex flex-1 items-center gap-2 rounded-2xl border px-3 py-2 ${theme === 'dark' ? 'border-slate-700 bg-slate-800/90' : 'border-slate-200 bg-slate-100'}`}>
-          <Paperclip size={16} className="text-slate-500" />
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={onUpload}
-            className="hidden"
-          />
-          <input
-            type="text"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask anything or attach a PDF..."
-            className={`w-full bg-transparent text-sm outline-none ${theme === 'dark' ? 'text-slate-100 placeholder:text-slate-500' : 'text-slate-800 placeholder:text-slate-400'}`}
-          />
-        </label>
-        <button
-          type="submit"
-          className="flex items-center justify-center rounded-2xl bg-fuchsia-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fuchsia-500"
-          disabled={isLoading}
-        >
-          <ArrowUp size={16} />
-        </button>
-      </form>
-    </section>
+    </main>
   );
 }

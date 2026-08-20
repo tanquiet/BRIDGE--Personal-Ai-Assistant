@@ -99,24 +99,22 @@ export default function ChatPage() {
 
   return (
     <AppShell theme={theme} setTheme={setTheme}>
-      <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
-        <Sidebar chats={chatHistory} onNewChat={handleNewChat} onSelect={handleSelectChat} />
-        <ChatPanel
-          messages={messages}
-          input={input}
-          setInput={setInput}
-          isLoading={isLoading}
-          onSend={handleSubmit}
-          onUpload={handleUpload}
-          uploadedFiles={uploadedFiles}
-          theme={theme}
-          setTheme={setTheme}
-          model={model}
-          setModel={setModel}
-          settingsOpen={settingsOpen}
-          setSettingsOpen={setSettingsOpen}
-        />
-      </div>
+      <Sidebar chats={chatHistory} onNewChat={handleNewChat} onSelect={handleSelectChat} />
+      <ChatPanel
+        messages={messages}
+        input={input}
+        setInput={setInput}
+        isLoading={isLoading}
+        onSend={handleSubmit}
+        onUpload={handleUpload}
+        uploadedFiles={uploadedFiles}
+        theme={theme}
+        setTheme={setTheme}
+        model={model}
+        setModel={setModel}
+        settingsOpen={settingsOpen}
+        setSettingsOpen={setSettingsOpen}
+      />
     </AppShell>
   );
 }

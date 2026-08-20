@@ -11,5 +11,72 @@ body,
 body {
   background: #0f172a;
   color: white;
-  font-family: Inter, sans-serif;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+  border-radius: 8px;
+}
+
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes orbit-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(16 163 127 / 0.2); }
+  50% { box-shadow: 0 0 0 10px rgb(16 163 127 / 0); }
+}
+
+.welcome-orbit {
+  animation: orbit-pulse 2.8s ease-out infinite;
+}
+
+.prompt-card,
+.message-row {
+  animation: float-in 400ms ease-out both;
+}
+
+.prompt-card:nth-child(2) { animation-delay: 80ms; }
+.prompt-card:nth-child(3) { animation-delay: 160ms; }
+
+.message-action {
+  opacity: 0;
+}
+
+.message-row:hover .message-action,
+.message-action:focus-visible {
+  opacity: 1;
+}
+
+.composer-glow:focus-within {
+  border-color: rgb(16 163 127 / 0.7);
+  box-shadow: 0 0 0 3px rgb(16 163 127 / 0.12), 0 12px 30px rgb(0 0 0 / 0.16);
+}
+
+.typing-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #10a37f;
+  animation: dot-bounce 1.2s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(2) { animation-delay: 150ms; }
+.typing-dots span:nth-child(3) { animation-delay: 300ms; }
+
+@keyframes dot-bounce {
+  0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
 }

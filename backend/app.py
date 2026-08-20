@@ -52,8 +52,17 @@ def _build_messages(payload: ChatRequest) -> List[dict[str, str]]:
     return messages
 
 
+def _asks_about_creator(message: str) -> bool:
+    normalized = message.lower()
+    creator_terms = ('creator', 'created you', 'made you', 'built you', 'developer')
+    return 'who is' in normalized and any(term in normalized for term in creator_terms)
+
+
 @app.post('/api/chat/stream')
 def stream_chat(payload: ChatRequest):
+    if _asks_about_creator(payload.message):
+        return 'My creator is Tanish.'
+
     try:
         model_name = payload.model or DEFAULT_MODEL
         response = chat(
