@@ -10,3 +10,9 @@ services:
         value: gemma3:4b
       - key: OLLAMA_HOST
         sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_BASE_URL
+        value: https://api.openai.com/v1/chat/completions
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini

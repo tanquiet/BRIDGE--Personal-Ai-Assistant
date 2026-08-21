@@ -185,10 +185,13 @@ address will not work for visitors to the Pages site.
 4. Push a commit or rerun the Pages workflow. The rebuilt site will call Render
   instead of `127.0.0.1`.
 
-Render cannot use Ollama installed on your personal computer. Set `OLLAMA_HOST`
-to a publicly reachable Ollama-compatible service, or replace the Ollama call
-with a hosted model API. Never put model API keys in frontend code or GitHub
-Pages environment variables.
+Render cannot use Ollama installed on your personal computer. The backend now
+supports any OpenAI-compatible hosted model API. In Render, set the secret
+`OPENAI_API_KEY`, then set `OPENAI_BASE_URL` and `OPENAI_MODEL` for your chosen
+provider. For OpenAI, use `https://api.openai.com/v1/chat/completions` and
+`gpt-4o-mini`. Never put model API keys in frontend code or GitHub Pages
+environment variables. If `OPENAI_API_KEY` is absent, local development falls
+back to Ollama.
 
 ---
 
