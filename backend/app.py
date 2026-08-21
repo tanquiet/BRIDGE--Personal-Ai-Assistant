@@ -35,6 +35,15 @@ class HistoryEntry(BaseModel):
 
 history_store: List[HistoryEntry] = []
 
+@app.get('/')
+def root():
+    return {
+        'name': 'Bridge Personal AI Assistant API',
+        'status': 'running',
+        'health': '/health',
+    }
+
+
 @app.get('/health')
 def health():
     return {'status': 'ok'}
