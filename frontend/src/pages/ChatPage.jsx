@@ -10,6 +10,9 @@ const createMessage = (role, content) => ({
   content,
 });
 
+const isGreeting = (message) =>
+  ['hey', 'hi', 'hello', 'hey!', 'hi!', 'hello!'].includes(message.trim().toLowerCase());
+
 export default function ChatPage() {
   const [theme, setTheme] = useState('dark');
   const [model, setModel] = useState('gemma3:4b');
@@ -56,12 +59,14 @@ export default function ChatPage() {
     setIsLoading(true);
 
     try {
-      const assistantText = await streamChat({
-        message: userMessage.content,
-        history: nextMessages,
-        model,
-        theme,
-      });
+      const assistantText = isGreeting(userMessage.content)
+        ? 'Yoo helooo'
+        : await streamChat({
+            message: userMessage.content,
+            history: nextMessages,
+            model,
+            theme,
+          });
 
       const assistantMessage = createMessage('assistant', assistantText);
       const updatedMessages = [...nextMessages, assistantMessage];
@@ -93,7 +98,7 @@ export default function ChatPage() {
       setMessages((current) => [...current, createMessage('assistant', `Stored ${result.name} for RAG context.`)]);
     } catch (error) {
       console.error(error);
-      setMessages((current) => [...current, createMessage('assistant', 'Upload failed. Please try a smaller PDF.')]);
+      setMessages((current) => [...current, createMessage('assistant', 'Upload failed. Please try a smaller PDF.')]);      uvicorn backend.app:app --host 0.0.0.0 --port $PORT      uvicorn backend.app:app --host 0.0.0.0 --port $PORT      uvicorn backend.app:app --host 0.0.0.0 --port $PORT
     }
   };
 
