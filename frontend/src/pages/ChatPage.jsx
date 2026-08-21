@@ -98,7 +98,7 @@ export default function ChatPage() {
       setMessages((current) => [...current, createMessage('assistant', `Stored ${result.name} for RAG context.`)]);
     } catch (error) {
       console.error(error);
-      setMessages((current) => [...current, createMessage('assistant', 'Upload failed. Please try a smaller PDF.')]);      uvicorn backend.app:app --host 0.0.0.0 --port $PORT      uvicorn backend.app:app --host 0.0.0.0 --port $PORT      uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+      setMessages((current) => [...current, createMessage('assistant', 'Upload failed. Please try a smaller PDF.')]);
     }
   };
 
