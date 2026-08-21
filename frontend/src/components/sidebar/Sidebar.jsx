@@ -1,13 +1,12 @@
-import { MessageSquarePlus, MessageSquare, Bot, PanelLeft } from 'lucide-react';
+import { MessageSquarePlus, MessageSquare, PanelLeft } from 'lucide-react';
+import logo from '../../assets/bridge-logo.png.jpeg';
 
 export default function Sidebar({ chats, onNewChat, onSelect }) {
   return (
     <aside className="flex h-full w-[260px] shrink-0 flex-col bg-[#171717] px-2 py-3 text-[#ececec] max-[640px]:w-[60px] max-[640px]:px-1">
       <div className="flex items-center justify-between px-2 pb-5">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#10a37f] text-white">
-            <Bot size={16} />
-          </div>
+          <img src={logo} alt="Bridge logo" className="h-7 w-7 rounded-md object-cover" />
           <p className="text-sm font-semibold tracking-tight max-[640px]:hidden">Bridge</p>
         </div>
         <PanelLeft size={17} className="text-slate-500 max-[640px]:hidden" />

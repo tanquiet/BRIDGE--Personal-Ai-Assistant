@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ArrowUp, Paperclip, Settings2, SunMedium, Moon, Bot, Sparkles, Lightbulb, Code2, Copy, Check, ChevronDown } from 'lucide-react';
+import { ArrowUp, Paperclip, Settings2, SunMedium, Moon, Sparkles, Lightbulb, Code2, Copy, Check, ChevronDown } from 'lucide-react';
+import logo from '../../assets/bridge-logo.png.jpeg';
 
 export default function ChatPanel({
   messages,
@@ -77,9 +78,7 @@ export default function ChatPanel({
         <div className="mx-auto flex w-full max-w-4xl flex-col gap-2 px-0 py-8">
           {messages.length === 0 ? (
             <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
-              <div className="welcome-orbit mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#10a37f] text-white">
-                <Bot size={24} />
-              </div>
+              <img src={logo} alt="Bridge logo" className="welcome-orbit mb-5 h-12 w-12 rounded-full object-cover" />
               <p className="text-2xl font-semibold tracking-tight text-[#ececec]">How can I help you today?</p>
               <p className="mt-3 max-w-md text-sm leading-6 text-slate-400">
                 Ask a question, brainstorm ideas, or upload a PDF to ground the conversation in your own content.
@@ -109,9 +108,7 @@ export default function ChatPanel({
                 </div>
               ) : (
                 <div key={message.id} className={`message-row group flex gap-4 rounded-xl px-4 py-5 sm:px-8 ${isDark ? 'bg-[#2f2f2f]/45' : 'bg-white/70'}`}>
-                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#10a37f] text-white">
-                    <Bot size={14} />
-                  </div>
+                  <img src={logo} alt="Bridge assistant" className="mt-0.5 h-7 w-7 shrink-0 rounded-full object-cover" />
                   <div className="min-w-0 max-w-3xl">
                     <div className={`whitespace-pre-wrap pt-1 text-sm leading-7 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
                       {message.content}
@@ -131,9 +128,7 @@ export default function ChatPanel({
           )}
           {isLoading && (
             <div className="flex gap-4 rounded-xl px-4 py-5 sm:px-8">
-              <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#10a37f] text-white">
-                <Bot size={14} />
-              </div>
+              <img src={logo} alt="Bridge assistant" className="mt-0.5 h-7 w-7 shrink-0 rounded-full object-cover" />
               <div className="flex items-center gap-3 pt-1 text-sm text-slate-400">
                 <span className="typing-dots flex gap-1"><span /><span /><span /></span>
                 Thinking through it...
