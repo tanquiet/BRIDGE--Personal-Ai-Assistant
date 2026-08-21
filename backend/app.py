@@ -71,6 +71,10 @@ def _asks_about_creator(message: str) -> bool:
     return 'who is' in normalized and any(term in normalized for term in creator_terms)
 
 
+def _is_greeting(message: str) -> bool:
+    return message.strip().lower() in {'hey', 'hi', 'hello', 'hey!', 'hi!', 'hello!'}
+
+
 def _cloud_chat(messages: List[dict[str, str]]) -> str:
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
@@ -98,6 +102,8 @@ def _cloud_chat(messages: List[dict[str, str]]) -> str:
 def stream_chat(payload: ChatRequest):
     if _asks_about_creator(payload.message):
         return 'My creator is Tanish.'
+    if _is_greeting(payload.message):
+        return 'Yoo helooo'
 
     try:
         messages = _build_messages(payload)
