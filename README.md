@@ -179,10 +179,7 @@ address will not work for visitors to the Pages site.
   `pip install -r requirements.txt` and the start command
   `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`.
 2. Confirm the backend works at `https://YOUR-SERVICE.onrender.com/health`.
-3. In GitHub, open **Settings > Secrets and variables > Actions** and add the
-  repository secret `VITE_API_BASE_URL` with the Render URL, without a trailing
-  slash.
-4. Push a commit or rerun the Pages workflow. The rebuilt site will call Render
+3. Push a commit or rerun the Pages workflow. The rebuilt site will call Render
   instead of `127.0.0.1`.
 
 Render cannot use Ollama installed on your personal computer. The backend now
