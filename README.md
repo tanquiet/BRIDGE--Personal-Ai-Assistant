@@ -3,6 +3,13 @@
 An AI-powered chatbot built with **React (Vite)** for the frontend and **FastAPI** for the backend. The application is designed to support modern LLM integration (such as OpenAI, Ollama, or LlamaIndex) and provides a clean, responsive chat interface.
 
 ---
+<img width="1179" height="880" alt="WhatsApp Image 2026-08-21 at 4 14 47 PM" src="https://github.com/user-attachments/assets/ae262258-a979-49dd-b4fc-17d9cfa1f046" />
+<img width="361" height="674" alt="WhatsApp Image 2026-08-21 at 4 10 25 PM" src="https://github.com/user-attachments/assets/4b7feec7-4238-4c88-a319-28a53dd10702" />
+<img width="351" height="678" alt="WhatsApp Image 2026-08-21 at 4 10 36 PM" src="https://github.com/user-attachments/assets/b0eb150b-1433-4b02-9ff3-ea48f51a5b67" />
+<img width="368" height="681" alt="WhatsApp Image 2026-08-21 at 4 10 46 PM" src="https://github.com/user-attachments/assets/cf07e789-5cd7-46af-979e-91b45927381f" />
+<img width="1600" height="899" alt="WhatsApp Image 2026-08-21 at 4 10 03 PM" src="https://github.com/user-attachments/assets/4240e4e4-83f4-4cf4-8b14-eba29ac8623d" />
+
+
 
 ## 🚀 Features
 
