@@ -172,6 +172,24 @@ GitHub Pages hosts the React interface only. Chat requests still require a
 public FastAPI backend and a server running Ollama; the local `127.0.0.1:8000`
 address will not work for visitors to the Pages site.
 
+### Connect Pages to the backend
+
+1. Create a new **Web Service** on Render from this repository. Render can use
+  `render.yaml`, or configure the service manually with the build command
+  `pip install -r requirements.txt` and the start command
+  `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`.
+2. Confirm the backend works at `https://YOUR-SERVICE.onrender.com/health`.
+3. In GitHub, open **Settings > Secrets and variables > Actions** and add the
+  repository secret `VITE_API_BASE_URL` with the Render URL, without a trailing
+  slash.
+4. Push a commit or rerun the Pages workflow. The rebuilt site will call Render
+  instead of `127.0.0.1`.
+
+Render cannot use Ollama installed on your personal computer. Set `OLLAMA_HOST`
+to a publicly reachable Ollama-compatible service, or replace the Ollama call
+with a hosted model API. Never put model API keys in frontend code or GitHub
+Pages environment variables.
+
 ---
 
 ## 🔌 API Endpoint
