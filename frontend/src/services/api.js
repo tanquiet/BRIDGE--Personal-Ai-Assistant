@@ -41,5 +41,6 @@ export async function streamChat({ message, history, model, theme }) {
     throw new Error(text);
   }
 
-  return await response.text();
+  const data = await response.json();
+  return typeof data === "string" ? data.replaceAll("\\n", "\n") : data;
 }
